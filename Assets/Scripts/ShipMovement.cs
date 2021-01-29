@@ -24,7 +24,7 @@ public class ShipMovement : MonoBehaviour
 
     }
 
-    private void UpdateModelTilt(float verticalInput, float horizontalInput, float strifeInput)
+    private void UpdateModelTilt(float verticalInput, float horizontalInput, float strafeInput)
     {
         if (verticalInput != 0.0f)
         {
@@ -44,10 +44,20 @@ public class ShipMovement : MonoBehaviour
             sidewaysTilt = Mathf.Lerp(sidewaysTilt, 0, 10 * Time.deltaTime);
         }
 
+        if (strafeInput != 0.0f)
+        {
+            sidewaysTilt = Mathf.Lerp(sidewaysTilt, strafeInput * maxSidewaysTilt, 10 * Time.deltaTime);
+        }
+        else
+        {
+            sidewaysTilt = Mathf.Lerp(sidewaysTilt, 0, 10 * Time.deltaTime);
+        }
+
+
         // forwardTilt = Mathf.Clamp(forwardTilt, -maxForwardTilt, maxForwardTilt);
         // sidewaysTilt = Mathf.Clamp(sidewaysTilt, -maxSidewaysTilt, maxSidewaysTilt);
 
-        shipModelTransform.localEulerAngles = new Vector3(forwardTilt, sidewaysTilt, sidewaysTilt);
+        shipModelTransform.localEulerAngles = new Vector3(forwardTilt, sidewaysTilt, -sidewaysTilt);
     }
 
     // Update is called once per frame
@@ -55,7 +65,7 @@ public class ShipMovement : MonoBehaviour
     {
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
-        float strifeInput = 0.0f;
+        float strafeInput = Input.GetAxis("Strafe");
 
         Debug.Log("Vertical:  " + verticalInput + " Horizontal:" + horizontalInput);
 
@@ -63,7 +73,21 @@ public class ShipMovement : MonoBehaviour
 
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
         transform.Translate(Vector3.forward * verticalInput * moveSpeed * Time.deltaTime);
+        transform.Translate(Vector3.right * strafeInput * 0.5f * moveSpeed * Time.deltaTime);
+        
+        // Create RaycastHit variable.
+        RaycastHit hit;
+        // If the ray casted from this object (in your case, the tree) to below it hits something...
+        if ((Physics.Raycast(transform.position + new Vector3(0, 1.0f, 0), -Vector3.up, out hit, 10f)))
+        {
+            // and if the distance between object and hit is larger than 0.3 (I judge it nearly unnoticeable otherwise)
+            if (hit.distance > 0.3f)
+            {
+                // Then bring object down by distance value.
+                transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+            }
+        }
 
-        UpdateModelTilt(verticalInput, horizontalInput, strifeInput);
+        UpdateModelTilt(verticalInput, horizontalInput, strafeInput);
     }
 }
