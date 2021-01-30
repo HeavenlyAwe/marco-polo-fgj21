@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(AudioSource))]
 public class ShipMovement : MonoBehaviour
 {
     public float maxForwardTilt = 15.0f;
@@ -24,10 +24,13 @@ public class ShipMovement : MonoBehaviour
 
     private new Rigidbody rigidbody; // use keyword 'new' to overwrite the deprecated reference to 'rigidbody'
 
+    private AudioSource pingAudioSource;
+
 
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        pingAudioSource = GetComponent<AudioSource>();
     }
 
 
@@ -52,6 +55,22 @@ public class ShipMovement : MonoBehaviour
         shipModelTransform.localEulerAngles = new Vector3(forwardTilt, sidewaysTilt, -sidewaysTilt);
     }
 
+
+    private void PingPickups()
+    {
+        if (pingAudioSource.isPlaying) return;
+
+        GameObject[] pickups = GameObject.FindGameObjectsWithTag("Pickup");
+
+        pingAudioSource.Play();
+
+        for (int i = 0; i < pickups.Length; i++)
+        {
+            float distance = Vector3.Distance(transform.position, pickups[i].transform.position);
+            float playTimer = distance / 300.0f + pingAudioSource.clip.length;
+            pickups[i].SendMessage("PlaySound", playTimer);
+        }
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -85,6 +104,14 @@ public class ShipMovement : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            PingPickups();
+        }
+    }
+
     void OnGUI()
     {
         //Switch this toggle to activate and deactivate the parent GameObject
@@ -93,18 +120,7 @@ public class ShipMovement : MonoBehaviour
         //Detect if there is a change with the toggle
         if (GUI.changed)
         {
-            //Change to true to show that there was just a change in the toggle state
-            // m_ToggleChange = true;
-
-            GameObject[] gos = GameObject.FindGameObjectsWithTag("Pickup");
-
-            for (int i = 0; i < gos.Length; i++)
-            {
-                gos[i].SendMessage("PlaySound", "Test");
-            }
-
-            // print("Clicked");
-            // PlaySound("Test");
+            PingPickups();
         }
     }
 }

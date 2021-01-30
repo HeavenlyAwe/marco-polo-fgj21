@@ -8,9 +8,26 @@ public class Pickup : MonoBehaviour
 
     private int currentAudioSourceIndex = -1;
 
-    private void Start()
+    private bool playingSound = false;
+    private float playSoundAfterTimer = 0.0f;
+
+
+    void Start()
     {
         currentAudioSourceIndex = audioSources.Length - 1;
+    }
+
+    void Update()
+    {
+        if (playingSound)
+        {
+            playSoundAfterTimer -= Time.deltaTime;
+            if (playSoundAfterTimer <= 0.0f)
+            {
+                audioSources[currentAudioSourceIndex].Play();
+                playingSound = false;
+            }
+        }
     }
 
     //When the Primitive collides with the walls, it will reverse direction
@@ -24,13 +41,18 @@ public class Pickup : MonoBehaviour
         }
     }
 
-    public void PlaySound(string source)
+    public void PlaySound(float timer)
     {
+        if (playingSound) return;
+
         for (int i = 0; i < audioSources.Length; i++)
         {
             if (audioSources[i].isPlaying) return;
         }
-        
-        audioSources[currentAudioSourceIndex].Play();
+
+        playSoundAfterTimer = timer;
+        playingSound = true;
+
+        Debug.Log("Timer set to: " + playSoundAfterTimer);
     }
 }
