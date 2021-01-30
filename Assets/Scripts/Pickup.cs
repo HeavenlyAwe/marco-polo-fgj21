@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlaySoundClip : MonoBehaviour
+public class Pickup : MonoBehaviour
 {
     public AudioSource[] audioSources;
 
@@ -11,6 +11,15 @@ public class PlaySoundClip : MonoBehaviour
     private void Start()
     {
         currentAudioSourceIndex = audioSources.Length - 1;
+    }
+
+    //When the Primitive collides with the walls, it will reverse direction
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Player collided");
+        }
     }
 
     public void PlaySound(string source)
