@@ -2,42 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Pickup : MonoBehaviour
 {
-    public AudioSource[] audioSources;
-
-    // Parameters to setup the cockpit screamers
-    public AudioClip audioClipMarco;
-
-    [Range(0.0f, 1.0f)]
-    public float audioClipMarcoVolume = 0.1f;
+    public AudioClip[] audioClips;
 
     public ShipUpgrade upgrade;
 
-
-    // Parameters supporting multiple versions of the "Polo" answering sound
-    private int currentAudioSourceIndex = -1;
-
-    private bool playingSound = false;
-    private float playSoundAfterTimer = 0.0f;
-
+    private AudioSource audioSource;
 
     void Start()
     {
-        currentAudioSourceIndex = audioSources.Length - 1;
-    }
-
-    void Update()
-    {
-        if (playingSound)
-        {
-            playSoundAfterTimer -= Time.deltaTime;
-            if (playSoundAfterTimer <= 0.0f)
-            {
-                audioSources[currentAudioSourceIndex].Play();
-                playingSound = false;
-            }
-        }
+        audioSource = GetComponent<AudioSource>();
     }
 
     //When the Primitive collides with the walls, it will reverse direction
@@ -47,29 +23,30 @@ public class Pickup : MonoBehaviour
         {
             // Enable the upgrade
             other.gameObject.SendMessage("ApplyUpgrade", upgrade);
-            GameObject.Destroy(gameObject);
 
-            // Add and enable another audio source on the ship for calling out "Marco"
-            AudioSource audioSource = other.gameObject.AddComponent<AudioSource>();
-            audioSource.clip = audioClipMarco;
-            audioSource.volume = audioClipMarcoVolume;
+            // Move the backseat driver to the player
+            BackseatDriver backseatDriver = gameObject.GetComponentInChildren<BackseatDriver>();
+            backseatDriver.gameObject.transform.parent = other.gameObject.transform;
+
+            GameObject.Destroy(gameObject);
 
             GameObject.Find("PickupManager").SendMessage("OnPickup");
         }
     }
 
+
+    private IEnumerator WaitAndPlaySound(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        audioSource.Play();
+    }
+
+
     public void PlaySound(float timer)
     {
-        if (playingSound) return;
+        if (audioSource.isPlaying) return;
 
-        for (int i = 0; i < audioSources.Length; i++)
-        {
-            if (audioSources[i].isPlaying) return;
-        }
-
-        playSoundAfterTimer = timer;
-        playingSound = true;
-
-        // Debug.Log("Timer set to: " + playSoundAfterTimer);
+        audioSource.clip = audioClips[Random.Range(0, audioClips.Length - 1)];
+        StartCoroutine(WaitAndPlaySound(timer));
     }
 }

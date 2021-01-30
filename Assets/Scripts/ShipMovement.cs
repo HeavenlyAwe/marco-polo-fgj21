@@ -23,6 +23,9 @@ public class ShipMovement : MonoBehaviour
 
     public Transform shipModelTransform;
 
+    private AudioSource pilotAudioSource;
+    public AudioClip[] pilotAudioClips;
+
     public Movestate movestate = Movestate.DESCENDING;
 
     private float forwardTilt = 0.0f;
@@ -46,14 +49,15 @@ public class ShipMovement : MonoBehaviour
         movestate = Movestate.ASCENDING;
     }
 
-    private IEnumerator WaitAndPing(AudioSource audioSource, float waitTime)
+    private IEnumerator WaitAndPing(BackseatDriver backseatDriver, float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        audioSource.Play();
+        backseatDriver.PlayClip();
     }
 
     private void Start()
     {
+        pilotAudioSource = GetComponent<AudioSource>();
         rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -82,31 +86,37 @@ public class ShipMovement : MonoBehaviour
 
     private void PingPickups()
     {
-        List<AudioSource> audioSources = new List<AudioSource>();
-        GetComponents<AudioSource>(audioSources);
+        BackseatDriver[] backseatDrivers = GetComponentsInChildren<BackseatDriver>(false);
+        print(backseatDrivers.Length);
+
 
         // Don't ping again until all previous pings are done
-        for (int i = 0; i < audioSources.Count; i++)
+        if (pilotAudioSource.isPlaying) return;
+        for (int i = 0; i < backseatDrivers.Length; i++)
         {
-            if (audioSources[i].isPlaying) return;
+            if (backseatDrivers[i].IsPlaying()) return;
         }
 
-
         // Trigger the "Marco" call
-        float maxClipDuration = -1.0f;
-        for (int i = 0; i < audioSources.Count; i++)
-        {
-            float offsetDuration = Random.Range(0.0f, 0.5f);
-            StartCoroutine(WaitAndPing(audioSources[i], offsetDuration));
+        pilotAudioSource.clip = pilotAudioClips[Random.Range(0, pilotAudioClips.Length - 1)];
+        pilotAudioSource.Play();
 
-            float totalDuration = audioSources[i].clip.length + offsetDuration;
+        float maxClipDuration = pilotAudioSource.clip.length;
+        for (int i = 0; i < backseatDrivers.Length; i++)
+        {
+            backseatDrivers[i].SetRandomClip();
+
+            float offsetDuration = Random.Range(0.0f, 0.5f);
+            StartCoroutine(WaitAndPing(backseatDrivers[i], offsetDuration));
+
+            float totalDuration = backseatDrivers[i].Duration() + offsetDuration;
             if (totalDuration > maxClipDuration)
             {
                 maxClipDuration = totalDuration;
             }
         }
 
-        // Loop over the pickups and trigger the sound
+        // Loop over the pickups and trigger the "Polo" response
         GameObject[] pickups = GameObject.FindGameObjectsWithTag("Pickup");
 
         for (int i = 0; i < pickups.Length; i++)
@@ -153,10 +163,13 @@ public class ShipMovement : MonoBehaviour
                 Debug.DrawRay(transform.position, -Vector3.up * 10.0f, Color.green);
                 if ((Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit, 10f)))
                 {
-                    if (!hit.collider.CompareTag("Player") && hit.distance > 0.3f)
+                    if (hit.distance > 0.3f)
                     {
                         rigidbody.position = new Vector3(rigidbody.position.x, hit.point.y + offsetFromGround, rigidbody.position.z);
                     }
+                } else
+                {
+                    movestate = Movestate.DESCENDING;
                 }
                 break;
         }
