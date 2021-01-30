@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class ShipMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     public float maxForwardTilt = 15.0f;
     public float maxSidewaysTilt = 15.0f;
 
     public float rotationSpeed = 75.0f;
-    public float moveSpeed = 10.0f;
+    public float moveSpeed = 30.0f;
+    public float moveDirectionLerpSpeed = 3.0f;
 
     public Transform shipModelTransform;
 
@@ -18,23 +17,25 @@ public class ShipMovement : MonoBehaviour
     private float forwardTilt = 0.0f;
     private float sidewaysTilt = 0.0f;
 
+    private Vector3 moveDirection = Vector3.zero;
 
-    void Start()
+    private new Rigidbody rigidbody; // use keyword 'new' to overwrite the deprecated reference to 'rigidbody'
+
+
+    private void Start()
     {
-
+        rigidbody = GetComponent<Rigidbody>();    
     }
 
-    private void UpdateModelTilt(float verticalInput, float horizontalInput, float strafeInput)
-    {
-        if (verticalInput != 0.0f)
-        {
-            forwardTilt = Mathf.Lerp(forwardTilt, verticalInput * maxForwardTilt, 10 * Time.deltaTime);
-        }
-        else
-        {
-            forwardTilt = Mathf.Lerp(forwardTilt, 0, Time.deltaTime);
-        }
 
+    private void UpdateModelTilt(float horizontalInput)
+    {
+        // Tilt the model based on the rigidbody velocity
+        Vector3 direction = transform.InverseTransformDirection(rigidbody.velocity);
+        forwardTilt = maxForwardTilt * Mathf.Clamp(direction.z / moveSpeed, -1.0f, 1.0f);
+        sidewaysTilt = maxSidewaysTilt * Mathf.Clamp(direction.x / moveSpeed, -1.0f, 1.0f);
+  
+        // Tilt the model if rotating
         if (horizontalInput != 0.0f)
         {
             sidewaysTilt = Mathf.Lerp(sidewaysTilt, horizontalInput * maxSidewaysTilt, 10 * Time.deltaTime);
@@ -44,50 +45,36 @@ public class ShipMovement : MonoBehaviour
             sidewaysTilt = Mathf.Lerp(sidewaysTilt, 0, 10 * Time.deltaTime);
         }
 
-        if (strafeInput != 0.0f)
-        {
-            sidewaysTilt = Mathf.Lerp(sidewaysTilt, strafeInput * maxSidewaysTilt, 10 * Time.deltaTime);
-        }
-        else
-        {
-            sidewaysTilt = Mathf.Lerp(sidewaysTilt, 0, 10 * Time.deltaTime);
-        }
-
-
-        // forwardTilt = Mathf.Clamp(forwardTilt, -maxForwardTilt, maxForwardTilt);
-        // sidewaysTilt = Mathf.Clamp(sidewaysTilt, -maxSidewaysTilt, maxSidewaysTilt);
-
+        // Apply the tilt
         shipModelTransform.localEulerAngles = new Vector3(forwardTilt, sidewaysTilt, -sidewaysTilt);
     }
 
+
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
         float strafeInput = Input.GetAxis("Strafe");
 
-        Debug.Log("Vertical:  " + verticalInput + " Horizontal:" + horizontalInput);
-
-        // shipModelTransform.localEulerAngles.x = maxForwardTilt;
-
-        transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
-        transform.Translate(Vector3.forward * verticalInput * moveSpeed * Time.deltaTime);
-        transform.Translate(Vector3.right * strafeInput * 0.5f * moveSpeed * Time.deltaTime);
+        // Give the rigidbody a velocity
+        Vector3 targetDirection = new Vector3(0.5f * strafeInput, 0.0f, verticalInput);
+        moveDirection = Vector3.Lerp(moveDirection, targetDirection, moveDirectionLerpSpeed * Time.deltaTime);
+        rigidbody.velocity = transform.TransformDirection(moveDirection) * moveSpeed;
         
-        // Create RaycastHit variable.
-        RaycastHit hit;
-        // If the ray casted from this object (in your case, the tree) to below it hits something...
-        if ((Physics.Raycast(transform.position + new Vector3(0, 1.0f, 0), -Vector3.up, out hit, 10f)))
+        // Rotate around the vertical axis
+        transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
+
+        // Follow the ground
+        if ((Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit, 10f)))
         {
-            // and if the distance between object and hit is larger than 0.3 (I judge it nearly unnoticeable otherwise)
             if (hit.distance > 0.3f)
             {
-                // Then bring object down by distance value.
-                transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+                transform.position = new Vector3(transform.position.x, hit.point.y + 5.0f, transform.position.z);
             }
         }
 
-        UpdateModelTilt(verticalInput, horizontalInput, strafeInput);
+        // Tilt the model based on the user inputs
+        UpdateModelTilt(horizontalInput);
     }
 }
