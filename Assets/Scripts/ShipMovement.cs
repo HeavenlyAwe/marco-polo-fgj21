@@ -13,6 +13,9 @@ public enum Movestate
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(AudioSource))]
 public class ShipMovement : MonoBehaviour
 {
+    [Range(0.0f, 1.0f)]
+    public float motorSoundMasterVolume = 1.0f;
+
     public float maxForwardTilt = 15.0f;
     public float maxSidewaysTilt = 15.0f;
 
@@ -77,9 +80,9 @@ public class ShipMovement : MonoBehaviour
         forwardTilt = maxForwardTilt * Mathf.Clamp(direction.z / moveSpeed, -1.0f, 1.0f);
         sidewaysTilt = maxSidewaysTilt * Mathf.Clamp(direction.x / moveSpeed, -1.0f, 1.0f);
 
-        motorSource.volume = Mathf.Clamp(Mathf.Abs(direction.z / moveSpeed), 0.0f, 1.0f);
-        motorSource.volume = Mathf.Max(motorSource.volume, Mathf.Clamp(Mathf.Abs(direction.x / moveSpeed), 0.0f, 0.5f));
-        motorSource.volume = Mathf.Max(motorSource.volume, Mathf.Clamp(Mathf.Abs(horizontalInput), 0.0f, 0.25f));
+        motorSource.volume = Mathf.Clamp(Mathf.Abs(direction.z / moveSpeed), 0.0f, 1.0f * motorSoundMasterVolume);
+        motorSource.volume = Mathf.Max(motorSource.volume, Mathf.Clamp(Mathf.Abs(direction.x / moveSpeed), 0.0f, 0.5f * motorSoundMasterVolume));
+        motorSource.volume = Mathf.Max(motorSource.volume, Mathf.Clamp(Mathf.Abs(horizontalInput), 0.0f, 0.25f * motorSoundMasterVolume));
 
         print(horizontalInput);
 
