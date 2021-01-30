@@ -23,7 +23,7 @@ public class ShipMovement : MonoBehaviour
 
     public Transform shipModelTransform;
 
-    public AudioSource pilotAudioSource;
+    private AudioSource pilotAudioSource;
     public AudioClip[] pilotAudioClips;
 
     public Movestate movestate = Movestate.DESCENDING;
@@ -57,6 +57,7 @@ public class ShipMovement : MonoBehaviour
 
     private void Start()
     {
+        pilotAudioSource = GetComponent<AudioSource>();
         rigidbody = GetComponent<Rigidbody>();
     }
 

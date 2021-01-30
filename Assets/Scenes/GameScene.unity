@@ -3446,7 +3446,6 @@ MonoBehaviour:
   moveDirectionLerpSpeed: 3
   offsetFromGround: 2
   shipModelTransform: {fileID: 1534877181}
-  pilotAudioSource: {fileID: 1167180487}
   pilotAudioClips:
   - {fileID: 8300000, guid: defc3b8a71827ae4fad361e1969ff507, type: 3}
   - {fileID: 8300000, guid: 89a7fe3eb2aa2b443a44cc70ee047b96, type: 3}
@@ -10511,7 +10510,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1799397544
 MonoBehaviour:
   m_ObjectHideFlags: 0
