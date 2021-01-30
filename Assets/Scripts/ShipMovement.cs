@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class ShipMovement : MonoBehaviour
 {
     public float maxForwardTilt = 15.0f;
@@ -24,7 +25,7 @@ public class ShipMovement : MonoBehaviour
 
     private void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();    
+        rigidbody = GetComponent<Rigidbody>();
     }
 
 
@@ -34,7 +35,7 @@ public class ShipMovement : MonoBehaviour
         Vector3 direction = transform.InverseTransformDirection(rigidbody.velocity);
         forwardTilt = maxForwardTilt * Mathf.Clamp(direction.z / moveSpeed, -1.0f, 1.0f);
         sidewaysTilt = maxSidewaysTilt * Mathf.Clamp(direction.x / moveSpeed, -1.0f, 1.0f);
-  
+
         // Tilt the model if rotating
         if (horizontalInput != 0.0f)
         {
@@ -61,7 +62,7 @@ public class ShipMovement : MonoBehaviour
         Vector3 targetDirection = new Vector3(0.5f * strafeInput, 0.0f, verticalInput);
         moveDirection = Vector3.Lerp(moveDirection, targetDirection, moveDirectionLerpSpeed * Time.deltaTime);
         rigidbody.velocity = transform.TransformDirection(moveDirection) * moveSpeed;
-        
+
         // Rotate around the vertical axis
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
 
@@ -79,5 +80,29 @@ public class ShipMovement : MonoBehaviour
 
         // Tilt the model based on the user inputs
         UpdateModelTilt(horizontalInput);
+    }
+
+
+    void OnGUI()
+    {
+        //Switch this toggle to activate and deactivate the parent GameObject
+        GUI.Button(new Rect(10, 10, 100, 30), "Play Sound");
+
+        //Detect if there is a change with the toggle
+        if (GUI.changed)
+        {
+            //Change to true to show that there was just a change in the toggle state
+            // m_ToggleChange = true;
+
+            GameObject[] gos = GameObject.FindGameObjectsWithTag("Pickup");
+
+            for (int i = 0; i < gos.Length; i++)
+            {
+                gos[i].SendMessage("PlaySound", "Test");
+            }
+
+            print("Clicked");
+            // PlaySound("Test");
+        }
     }
 }
