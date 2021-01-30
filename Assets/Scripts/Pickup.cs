@@ -46,7 +46,7 @@ public class Pickup : MonoBehaviour
         if (other.gameObject.CompareTag("Ship"))
         {
             // Enable the upgrade
-            other.gameObject.SendMessage("ApplyUpgrade", ShipUpgrade.LIGHTS);
+            other.gameObject.SendMessage("ApplyUpgrade", upgrade);
             GameObject.Destroy(gameObject);
 
             // Add and enable another audio source on the ship for calling out "Marco"

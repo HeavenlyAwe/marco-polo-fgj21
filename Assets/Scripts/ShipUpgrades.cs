@@ -4,28 +4,31 @@ using UnityEngine;
 
 public enum ShipUpgrade
 {
-    LIGHTS,
+    LIGHT_CENTER,
+    LIGHT_SIDES,
 }
 
 public class ShipUpgrades : MonoBehaviour
 {
     public Light spotLight1;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Light sideLightLeft;
+    public Light sideLightRight;
 
     public void ApplyUpgrade(ShipUpgrade upgrade)
     {
         Debug.Log("Applying upgrade " + upgrade);
-        spotLight1.enabled = true;
+        switch (upgrade)
+        {
+            case ShipUpgrade.LIGHT_CENTER:
+                spotLight1.enabled = true;
+                break;
+            case ShipUpgrade.LIGHT_SIDES:
+                sideLightLeft.enabled = true;
+                sideLightRight.enabled = true;
+                break;
+            default:
+                Debug.LogWarning("ShipUpgrade " + upgrade + " not used!");
+                break;
+        }
     }
 }

@@ -30,7 +30,6 @@ public class ShipMovement : MonoBehaviour
     private IEnumerator WaitAndPing(AudioSource audioSource, float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        print("Coroutine ended: " + Time.time + " seconds");
         audioSource.Play();
     }
 
@@ -120,9 +119,7 @@ public class ShipMovement : MonoBehaviour
         {
             if (!hit.collider.CompareTag("Player") && hit.distance > 0.3f)
             {
-                // Debug.Log(hit.point + " : " + hit.collider.gameObject.name);
                 rigidbody.position = new Vector3(rigidbody.position.x, hit.point.y + offsetFromGround, rigidbody.position.z);
-                // transform.position = new Vector3(transform.position.x, hit.point.y + 5.0f, transform.position.z);
             }
         }
 
@@ -139,15 +136,4 @@ public class ShipMovement : MonoBehaviour
         }
     }
 
-    void OnGUI()
-    {
-        //Switch this toggle to activate and deactivate the parent GameObject
-        GUI.Button(new Rect(10, 10, 100, 30), "Play Sound");
-
-        //Detect if there is a change with the toggle
-        if (GUI.changed)
-        {
-            PingPickups();
-        }
-    }
 }
