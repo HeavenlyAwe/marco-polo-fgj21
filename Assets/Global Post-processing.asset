@@ -173,7 +173,7 @@ MonoBehaviour:
     overrideState: 1
     value: -28
   tint:
-    overrideState: 1
+    overrideState: 0
     value: -56
   colorFilter:
     overrideState: 1
