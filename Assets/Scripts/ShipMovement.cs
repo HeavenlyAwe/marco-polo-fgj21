@@ -162,10 +162,13 @@ public class ShipMovement : MonoBehaviour
                 Debug.DrawRay(transform.position, -Vector3.up * 10.0f, Color.green);
                 if ((Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit, 10f)))
                 {
-                    if (!hit.collider.CompareTag("Player") && hit.distance > 0.3f)
+                    if (hit.distance > 0.3f)
                     {
                         rigidbody.position = new Vector3(rigidbody.position.x, hit.point.y + offsetFromGround, rigidbody.position.z);
                     }
+                } else
+                {
+                    movestate = Movestate.DESCENDING;
                 }
                 break;
         }
