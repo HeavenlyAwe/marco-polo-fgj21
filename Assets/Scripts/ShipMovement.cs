@@ -12,6 +12,8 @@ public class ShipMovement : MonoBehaviour
     public float moveSpeed = 30.0f;
     public float moveDirectionLerpSpeed = 3.0f;
 
+    public float offsetFromGround = 5.0f;
+
     public Transform shipModelTransform;
 
 
@@ -72,8 +74,8 @@ public class ShipMovement : MonoBehaviour
         {
             if (!hit.collider.CompareTag("Player") && hit.distance > 0.3f)
             {
-                Debug.Log(hit.point + " : " + hit.collider.gameObject.name);
-                rigidbody.position = new Vector3(rigidbody.position.x, hit.point.y + 5.0f, rigidbody.position.z);
+                // Debug.Log(hit.point + " : " + hit.collider.gameObject.name);
+                rigidbody.position = new Vector3(rigidbody.position.x, hit.point.y + offsetFromGround, rigidbody.position.z);
                 // transform.position = new Vector3(transform.position.x, hit.point.y + 5.0f, transform.position.z);
             }
         }
@@ -101,7 +103,7 @@ public class ShipMovement : MonoBehaviour
                 gos[i].SendMessage("PlaySound", "Test");
             }
 
-            print("Clicked");
+            // print("Clicked");
             // PlaySound("Test");
         }
     }

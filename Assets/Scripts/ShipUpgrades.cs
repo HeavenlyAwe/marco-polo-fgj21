@@ -9,6 +9,8 @@ public enum ShipUpgrade
 
 public class ShipUpgrades : MonoBehaviour
 {
+    public Light spotLight1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,5 +26,6 @@ public class ShipUpgrades : MonoBehaviour
     public void ApplyUpgrade(ShipUpgrade upgrade)
     {
         Debug.Log("Applying upgrade " + upgrade);
+        spotLight1.enabled = true;
     }
 }

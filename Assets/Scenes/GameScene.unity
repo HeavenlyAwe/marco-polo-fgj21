@@ -2960,6 +2960,7 @@ MonoBehaviour:
   rotationSpeed: 75
   moveSpeed: 30
   moveDirectionLerpSpeed: 3
+  offsetFromGround: 5
   shipModelTransform: {fileID: 1534877181}
 --- !u!4 &1167180483 stripped
 Transform:
@@ -3008,6 +3009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbddb75ce81cb0540a6e0889f7c672dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spotLight1: {fileID: 1564335042}
 --- !u!1001 &1172431456
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3948,7 +3950,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1564335040}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
@@ -5264,7 +5266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7568879925875465370, guid: 2d4e5ad3e8417544ea6d900fe0d90cfd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.10000038
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7568879925875465370, guid: 2d4e5ad3e8417544ea6d900fe0d90cfd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5394,6 +5396,10 @@ PrefabInstance:
     - target: {fileID: 8261583397416806072, guid: 09b84e24b4ef1b4449b2bcdafbcd7908, type: 3}
       propertyPath: m_Name
       value: TestShip
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261583397416806072, guid: 09b84e24b4ef1b4449b2bcdafbcd7908, type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 102492237700119754, guid: 09b84e24b4ef1b4449b2bcdafbcd7908, type: 3}

@@ -16,9 +16,11 @@ public class Pickup : MonoBehaviour
     //When the Primitive collides with the walls, it will reverse direction
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Ship"))
         {
-            Debug.Log("Player collided");
+            Debug.Log("Player collided " + other.gameObject.name);
+            other.gameObject.SendMessage("ApplyUpgrade", ShipUpgrade.LIGHTS);
+            GameObject.Destroy(gameObject);
         }
     }
 
