@@ -26,6 +26,8 @@ public class PickupManager : MonoBehaviour
             print("Pickups collected: " + collectedPickups + "/" + minimumPickups);
             GameObject.FindGameObjectWithTag("Ship").SendMessage("StartAscend");
         }
+
+        GameObject.Find("SoundManager").SendMessage("SwitchToNextClip");
     }
 
 }
