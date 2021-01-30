@@ -10,6 +10,10 @@ public class PickupManager : MonoBehaviour
 
     public int collectedPickups = 0;
 
+    public float minimumDistanceToLastPickup = 50.0f;
+
+    private GameObject ship = null;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -18,13 +22,26 @@ public class PickupManager : MonoBehaviour
         minimumPickups = Mathf.Min(minimumPickups, availablePickups);
     }
 
+    private void Start()
+    {
+        ship = GameObject.FindGameObjectWithTag("Ship");
+    }
+
+    private IEnumerator WaitBeforeAscend(float waitTimer)
+    {
+        yield return new WaitForSeconds(waitTimer);
+        ship.SendMessage("StartAscend");
+    }
+
     public void OnPickup()
     {
         collectedPickups += 1;
         if (collectedPickups >= minimumPickups)
         {
             print("Pickups collected: " + collectedPickups + "/" + minimumPickups);
-            GameObject.FindGameObjectWithTag("Ship").SendMessage("StartAscend");
+
+            ship.SendMessage("PauseBeforeAscend");
+            StartCoroutine(WaitBeforeAscend(1.0f));
         }
 
         GameObject.Find("SoundManager").SendMessage("SwitchToNextClip");

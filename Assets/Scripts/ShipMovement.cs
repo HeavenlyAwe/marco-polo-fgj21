@@ -7,6 +7,7 @@ public enum Movestate
     ASCENDING,
     DESCENDING,
     GROUNDED,
+    PAUSED,
 }
 
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(AudioSource))]
@@ -42,6 +43,11 @@ public class ShipMovement : MonoBehaviour
         {
             movestate = Movestate.GROUNDED;
         }
+    }
+
+    public void PauseBeforeAscend()
+    {
+        movestate = Movestate.PAUSED;
     }
 
     public void StartAscend()
@@ -171,6 +177,10 @@ public class ShipMovement : MonoBehaviour
                 {
                     movestate = Movestate.DESCENDING;
                 }
+                break;
+
+            case Movestate.PAUSED:
+                rigidbody.velocity = Vector3.zero;
                 break;
         }
 
