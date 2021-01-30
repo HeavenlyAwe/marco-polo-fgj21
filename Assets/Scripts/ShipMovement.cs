@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Movestate
+{
+    ASCENDING,
+    DESCENDING,
+    GROUNDED,
+}
+
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(AudioSource))]
 public class ShipMovement : MonoBehaviour
 {
@@ -16,8 +23,7 @@ public class ShipMovement : MonoBehaviour
 
     public Transform shipModelTransform;
 
-    // public AudioSource[] pingAudioSources;
-
+    public Movestate movestate = Movestate.DESCENDING;
 
     private float forwardTilt = 0.0f;
     private float sidewaysTilt = 0.0f;
@@ -26,6 +32,19 @@ public class ShipMovement : MonoBehaviour
 
     private new Rigidbody rigidbody; // use keyword 'new' to overwrite the deprecated reference to 'rigidbody'
 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (movestate == Movestate.DESCENDING)
+        {
+            movestate = Movestate.GROUNDED;
+        }
+    }
+
+    public void StartAscend()
+    {
+        movestate = Movestate.ASCENDING;
+    }
 
     private IEnumerator WaitAndPing(AudioSource audioSource, float waitTime)
     {
@@ -105,22 +124,41 @@ public class ShipMovement : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         float strafeInput = Input.GetAxis("Strafe");
 
-        // Give the rigidbody a velocity
-        Vector3 targetDirection = new Vector3(0.5f * strafeInput, 0.0f, verticalInput);
-        moveDirection = Vector3.Lerp(moveDirection, targetDirection, moveDirectionLerpSpeed * Time.deltaTime);
-        rigidbody.velocity = transform.TransformDirection(moveDirection) * moveSpeed;
-
         // Rotate around the vertical axis
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
 
-        // Follow the ground
-        Debug.DrawRay(transform.position, -Vector3.up * 10.0f, Color.green);
-        if ((Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit, 10f)))
+        switch (movestate)
         {
-            if (!hit.collider.CompareTag("Player") && hit.distance > 0.3f)
-            {
-                rigidbody.position = new Vector3(rigidbody.position.x, hit.point.y + offsetFromGround, rigidbody.position.z);
-            }
+            case Movestate.ASCENDING:
+
+                // Give the rigidbody a velocity
+                moveDirection = Vector3.Lerp(moveDirection, Vector3.up, moveDirectionLerpSpeed * Time.deltaTime);
+                rigidbody.velocity = transform.TransformDirection(moveDirection) * moveSpeed / 2.0f;
+
+                break;
+            case Movestate.DESCENDING:
+
+                // Give the rigidbody a velocity
+                moveDirection = Vector3.Lerp(moveDirection, Vector3.down, moveDirectionLerpSpeed * Time.deltaTime);
+                rigidbody.velocity = transform.TransformDirection(moveDirection) * moveSpeed / 2.0f;
+
+                break;
+            case Movestate.GROUNDED:
+
+                // Give the rigidbody a velocity
+                Vector3 targetDirection = new Vector3(0.5f * strafeInput, 0.0f, verticalInput);
+                moveDirection = Vector3.Lerp(moveDirection, targetDirection, moveDirectionLerpSpeed * Time.deltaTime);
+                rigidbody.velocity = transform.TransformDirection(moveDirection) * moveSpeed;
+
+                Debug.DrawRay(transform.position, -Vector3.up * 10.0f, Color.green);
+                if ((Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit, 10f)))
+                {
+                    if (!hit.collider.CompareTag("Player") && hit.distance > 0.3f)
+                    {
+                        rigidbody.position = new Vector3(rigidbody.position.x, hit.point.y + offsetFromGround, rigidbody.position.z);
+                    }
+                }
+                break;
         }
 
         // Tilt the model based on the user inputs
