@@ -66,11 +66,14 @@ public class ShipMovement : MonoBehaviour
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
 
         // Follow the ground
+        Debug.DrawRay(transform.position, -Vector3.up * 10.0f, Color.green);
         if ((Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit, 10f)))
         {
-            if (hit.distance > 0.3f)
+            if (!hit.collider.CompareTag("Player") && hit.distance > 0.3f)
             {
-                transform.position = new Vector3(transform.position.x, hit.point.y + 5.0f, transform.position.z);
+                Debug.Log(hit.point + " : " + hit.collider.gameObject.name);
+                rigidbody.position = new Vector3(rigidbody.position.x, hit.point.y + 5.0f, rigidbody.position.z);
+                // transform.position = new Vector3(transform.position.x, hit.point.y + 5.0f, transform.position.z);
             }
         }
 
