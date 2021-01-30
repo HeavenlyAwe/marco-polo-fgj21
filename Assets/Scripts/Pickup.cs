@@ -6,6 +6,16 @@ public class Pickup : MonoBehaviour
 {
     public AudioSource[] audioSources;
 
+    // Parameters to setup the cockpit screamers
+    public AudioClip audioClipMarco;
+
+    [Range(0.0f, 1.0f)]
+    public float audioClipMarcoVolume = 0.1f;
+
+    public ShipUpgrade upgrade;
+
+
+    // Parameters supporting multiple versions of the "Polo" answering sound
     private int currentAudioSourceIndex = -1;
 
     private bool playingSound = false;
@@ -35,9 +45,16 @@ public class Pickup : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ship"))
         {
-            Debug.Log("Player collided " + other.gameObject.name);
-            other.gameObject.SendMessage("ApplyUpgrade", ShipUpgrade.LIGHTS);
+            // Enable the upgrade
+            other.gameObject.SendMessage("ApplyUpgrade", upgrade);
             GameObject.Destroy(gameObject);
+
+            // Add and enable another audio source on the ship for calling out "Marco"
+            AudioSource audioSource = other.gameObject.AddComponent<AudioSource>();
+            audioSource.clip = audioClipMarco;
+            audioSource.volume = audioClipMarcoVolume;
+
+            GameObject.Find("PickupManager").SendMessage("OnPickup");
         }
     }
 
@@ -53,6 +70,6 @@ public class Pickup : MonoBehaviour
         playSoundAfterTimer = timer;
         playingSound = true;
 
-        Debug.Log("Timer set to: " + playSoundAfterTimer);
+        // Debug.Log("Timer set to: " + playSoundAfterTimer);
     }
 }

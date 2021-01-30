@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Movestate
+{
+    ASCENDING,
+    DESCENDING,
+    GROUNDED,
+}
+
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(AudioSource))]
 public class ShipMovement : MonoBehaviour
 {
@@ -16,6 +23,7 @@ public class ShipMovement : MonoBehaviour
 
     public Transform shipModelTransform;
 
+    public Movestate movestate = Movestate.DESCENDING;
 
     private float forwardTilt = 0.0f;
     private float sidewaysTilt = 0.0f;
@@ -24,13 +32,29 @@ public class ShipMovement : MonoBehaviour
 
     private new Rigidbody rigidbody; // use keyword 'new' to overwrite the deprecated reference to 'rigidbody'
 
-    private AudioSource pingAudioSource;
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (movestate == Movestate.DESCENDING)
+        {
+            movestate = Movestate.GROUNDED;
+        }
+    }
+
+    public void StartAscend()
+    {
+        movestate = Movestate.ASCENDING;
+    }
+
+    private IEnumerator WaitAndPing(AudioSource audioSource, float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        audioSource.Play();
+    }
 
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        pingAudioSource = GetComponent<AudioSource>();
     }
 
 
@@ -58,16 +82,37 @@ public class ShipMovement : MonoBehaviour
 
     private void PingPickups()
     {
-        if (pingAudioSource.isPlaying) return;
+        List<AudioSource> audioSources = new List<AudioSource>();
+        GetComponents<AudioSource>(audioSources);
 
+        // Don't ping again until all previous pings are done
+        for (int i = 0; i < audioSources.Count; i++)
+        {
+            if (audioSources[i].isPlaying) return;
+        }
+
+
+        // Trigger the "Marco" call
+        float maxClipDuration = -1.0f;
+        for (int i = 0; i < audioSources.Count; i++)
+        {
+            float offsetDuration = Random.Range(0.0f, 0.5f);
+            StartCoroutine(WaitAndPing(audioSources[i], offsetDuration));
+
+            float totalDuration = audioSources[i].clip.length + offsetDuration;
+            if (totalDuration > maxClipDuration)
+            {
+                maxClipDuration = totalDuration;
+            }
+        }
+
+        // Loop over the pickups and trigger the sound
         GameObject[] pickups = GameObject.FindGameObjectsWithTag("Pickup");
-
-        pingAudioSource.Play();
 
         for (int i = 0; i < pickups.Length; i++)
         {
             float distance = Vector3.Distance(transform.position, pickups[i].transform.position);
-            float playTimer = distance / 300.0f + pingAudioSource.clip.length;
+            float playTimer = distance / 300.0f + maxClipDuration;
             pickups[i].SendMessage("PlaySound", playTimer);
         }
     }
@@ -79,24 +124,41 @@ public class ShipMovement : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         float strafeInput = Input.GetAxis("Strafe");
 
-        // Give the rigidbody a velocity
-        Vector3 targetDirection = new Vector3(0.5f * strafeInput, 0.0f, verticalInput);
-        moveDirection = Vector3.Lerp(moveDirection, targetDirection, moveDirectionLerpSpeed * Time.deltaTime);
-        rigidbody.velocity = transform.TransformDirection(moveDirection) * moveSpeed;
-
         // Rotate around the vertical axis
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
 
-        // Follow the ground
-        Debug.DrawRay(transform.position, -Vector3.up * 10.0f, Color.green);
-        if ((Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit, 10f)))
+        switch (movestate)
         {
-            if (!hit.collider.CompareTag("Player") && hit.distance > 0.3f)
-            {
-                // Debug.Log(hit.point + " : " + hit.collider.gameObject.name);
-                rigidbody.position = new Vector3(rigidbody.position.x, hit.point.y + offsetFromGround, rigidbody.position.z);
-                // transform.position = new Vector3(transform.position.x, hit.point.y + 5.0f, transform.position.z);
-            }
+            case Movestate.ASCENDING:
+
+                // Give the rigidbody a velocity
+                moveDirection = Vector3.Lerp(moveDirection, Vector3.up, moveDirectionLerpSpeed * Time.deltaTime);
+                rigidbody.velocity = transform.TransformDirection(moveDirection) * moveSpeed / 2.0f;
+
+                break;
+            case Movestate.DESCENDING:
+
+                // Give the rigidbody a velocity
+                moveDirection = Vector3.Lerp(moveDirection, Vector3.down, moveDirectionLerpSpeed * Time.deltaTime);
+                rigidbody.velocity = transform.TransformDirection(moveDirection) * moveSpeed / 2.0f;
+
+                break;
+            case Movestate.GROUNDED:
+
+                // Give the rigidbody a velocity
+                Vector3 targetDirection = new Vector3(0.5f * strafeInput, 0.0f, verticalInput);
+                moveDirection = Vector3.Lerp(moveDirection, targetDirection, moveDirectionLerpSpeed * Time.deltaTime);
+                rigidbody.velocity = transform.TransformDirection(moveDirection) * moveSpeed;
+
+                Debug.DrawRay(transform.position, -Vector3.up * 10.0f, Color.green);
+                if ((Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit, 10f)))
+                {
+                    if (!hit.collider.CompareTag("Player") && hit.distance > 0.3f)
+                    {
+                        rigidbody.position = new Vector3(rigidbody.position.x, hit.point.y + offsetFromGround, rigidbody.position.z);
+                    }
+                }
+                break;
         }
 
         // Tilt the model based on the user inputs
@@ -112,15 +174,4 @@ public class ShipMovement : MonoBehaviour
         }
     }
 
-    void OnGUI()
-    {
-        //Switch this toggle to activate and deactivate the parent GameObject
-        GUI.Button(new Rect(10, 10, 100, 30), "Play Sound");
-
-        //Detect if there is a change with the toggle
-        if (GUI.changed)
-        {
-            PingPickups();
-        }
-    }
 }
