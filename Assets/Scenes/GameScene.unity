@@ -3021,8 +3021,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: defc3b8a71827ae4fad361e1969ff507, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_PlayOnAwake: 0
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3169,6 +3169,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7568879925875465371, guid: 2d4e5ad3e8417544ea6d900fe0d90cfd, type: 3}
+      propertyPath: audioClipMarco
+      value: 
+      objectReference: {fileID: 8300000, guid: 791ef684d2bcbd2449e0894622c4befb, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d4e5ad3e8417544ea6d900fe0d90cfd, type: 3}
 --- !u!1 &1290273258
@@ -5404,6 +5408,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7568879925875465371, guid: 2d4e5ad3e8417544ea6d900fe0d90cfd, type: 3}
+      propertyPath: audioClipMarco
+      value: 
+      objectReference: {fileID: 8300000, guid: b28b12a70f62ba74783c37b57fef7a6d, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d4e5ad3e8417544ea6d900fe0d90cfd, type: 3}
 --- !u!1001 &2409742797958390045
@@ -5510,21 +5518,3 @@ PrefabInstance:
     - {fileID: 3295228251443614325, guid: 09b84e24b4ef1b4449b2bcdafbcd7908, type: 3}
     - {fileID: 2715019648389347439, guid: 09b84e24b4ef1b4449b2bcdafbcd7908, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 09b84e24b4ef1b4449b2bcdafbcd7908, type: 3}
---- !u!1 &7000427029824784561 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7568879925875465368, guid: 2d4e5ad3e8417544ea6d900fe0d90cfd, type: 3}
-  m_PrefabInstance: {fileID: 589007811356890153}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &7000427029824784562
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7000427029824784561}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4.08
-  m_Center: {x: 0, y: 0, z: 0}

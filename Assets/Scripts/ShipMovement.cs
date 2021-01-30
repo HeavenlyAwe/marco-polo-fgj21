@@ -16,6 +16,8 @@ public class ShipMovement : MonoBehaviour
 
     public Transform shipModelTransform;
 
+    // public AudioSource[] pingAudioSources;
+
 
     private float forwardTilt = 0.0f;
     private float sidewaysTilt = 0.0f;
@@ -24,13 +26,17 @@ public class ShipMovement : MonoBehaviour
 
     private new Rigidbody rigidbody; // use keyword 'new' to overwrite the deprecated reference to 'rigidbody'
 
-    private AudioSource pingAudioSource;
 
+    private IEnumerator WaitAndPing(AudioSource audioSource, float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        print("Coroutine ended: " + Time.time + " seconds");
+        audioSource.Play();
+    }
 
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        pingAudioSource = GetComponent<AudioSource>();
     }
 
 
@@ -58,16 +64,37 @@ public class ShipMovement : MonoBehaviour
 
     private void PingPickups()
     {
-        if (pingAudioSource.isPlaying) return;
+        List<AudioSource> audioSources = new List<AudioSource>();
+        GetComponents<AudioSource>(audioSources);
 
+        // Don't ping again until all previous pings are done
+        for (int i = 0; i < audioSources.Count; i++)
+        {
+            if (audioSources[i].isPlaying) return;
+        }
+
+
+        // Trigger the "Marco" call
+        float maxClipDuration = -1.0f;
+        for (int i = 0; i < audioSources.Count; i++)
+        {
+            float offsetDuration = Random.Range(0.0f, 0.5f);
+            StartCoroutine(WaitAndPing(audioSources[i], offsetDuration));
+
+            float totalDuration = audioSources[i].clip.length + offsetDuration;
+            if (totalDuration > maxClipDuration)
+            {
+                maxClipDuration = totalDuration;
+            }
+        }
+
+        // Loop over the pickups and trigger the sound
         GameObject[] pickups = GameObject.FindGameObjectsWithTag("Pickup");
-
-        pingAudioSource.Play();
 
         for (int i = 0; i < pickups.Length; i++)
         {
             float distance = Vector3.Distance(transform.position, pickups[i].transform.position);
-            float playTimer = distance / 300.0f + pingAudioSource.clip.length;
+            float playTimer = distance / 300.0f + maxClipDuration;
             pickups[i].SendMessage("PlaySound", playTimer);
         }
     }
