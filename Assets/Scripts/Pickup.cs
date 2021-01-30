@@ -53,6 +53,8 @@ public class Pickup : MonoBehaviour
             AudioSource audioSource = other.gameObject.AddComponent<AudioSource>();
             audioSource.clip = audioClipMarco;
             audioSource.volume = audioClipMarcoVolume;
+
+            GameObject.Find("PickupManager").SendMessage("OnPickup");
         }
     }
 
