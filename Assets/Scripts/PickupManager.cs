@@ -39,7 +39,7 @@ public class PickupManager : MonoBehaviour
 
         pickupSoundSource = GetComponent<AudioSource>();
 
-        StartCoroutine(WaitAndDestroySunkenShips(6.0f));
+        StartCoroutine(WaitAndDestroySunkenShips(10.0f));
     }
 
     private void Start()
