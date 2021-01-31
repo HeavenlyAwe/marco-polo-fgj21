@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/ChrideTestA.unity
+    guid: 084bc23c24b2e5eb08edc8ea270ff9eb
   m_configObjects: {}
