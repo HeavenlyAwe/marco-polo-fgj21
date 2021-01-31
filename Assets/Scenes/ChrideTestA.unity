@@ -3060,7 +3060,7 @@ Transform:
   - {fileID: 1266015332}
   - {fileID: 849309157}
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &366379671
 PrefabInstance:
@@ -3528,7 +3528,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &399196656
 GameObject:
@@ -8332,7 +8332,7 @@ Transform:
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &404205275 stripped
 Transform:
@@ -16338,6 +16338,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 2.03
       objectReference: {fileID: 0}
+    - target: {fileID: 2697821813265676644, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: postprocessing
+      value: 
+      objectReference: {fileID: 1326609671}
     - target: {fileID: 2697821813306202227, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.57
@@ -19718,7 +19722,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1287123727
 GameObject:
@@ -20024,7 +20028,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1331572887
 PrefabInstance:
@@ -21340,7 +21344,7 @@ Transform:
   - {fileID: 1135188370}
   - {fileID: 1808476544}
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 83.046, z: 0}
 --- !u!1 &1491768062
 GameObject:
@@ -22969,7 +22973,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1690967517
 GameObject:
@@ -26358,7 +26362,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &2063425840
 AudioSource:
