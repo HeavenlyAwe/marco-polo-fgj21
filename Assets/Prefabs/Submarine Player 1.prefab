@@ -1112,14 +1112,14 @@ MonoBehaviour:
     pauseDurationBefore: 1
     pauseDurationAfter: 0
     shouldGoToNext: 1
-  - text: Christina Lassheikki / 3D Artist & Graphics
+  - text: Christina Lassheikki / 3D Art & Graphics & Voice Acting
     startFadeValue: 0
     endFadeValue: 1
     fadeDuration: 2
     pauseDurationBefore: 1
     pauseDurationAfter: 0
     shouldGoToNext: 1
-  - text: Christina Lassheikki / 3D Artist & Graphics
+  - text: Christina Lassheikki / 3D Art & Graphics & Voice Acting
     startFadeValue: 1
     endFadeValue: 0
     fadeDuration: 2
@@ -1162,6 +1162,20 @@ MonoBehaviour:
     pauseDurationAfter: 0
     shouldGoToNext: 1
   - text: Jeremias Berg / Music & Sound
+    startFadeValue: 1
+    endFadeValue: 0
+    fadeDuration: 2
+    pauseDurationBefore: 1
+    pauseDurationAfter: 0
+    shouldGoToNext: 1
+  - text: Tuma Heinonen / Voice Acting
+    startFadeValue: 0
+    endFadeValue: 1
+    fadeDuration: 2
+    pauseDurationBefore: 1
+    pauseDurationAfter: 0
+    shouldGoToNext: 1
+  - text: Tuma Heinonen / Voice Acting
     startFadeValue: 1
     endFadeValue: 0
     fadeDuration: 2
