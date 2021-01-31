@@ -50,6 +50,16 @@ public class ShipMovement : MonoBehaviour
     public bool tutorialRunning = true;
 
 
+    private void Start()
+    {
+        pilotAudioSource = GetComponent<AudioSource>();
+        rigidbody = GetComponent<Rigidbody>();
+
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (movestate == Movestate.DESCENDING)
@@ -78,12 +88,6 @@ public class ShipMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
         backseatDriver.PlayClip();
-    }
-
-    private void Start()
-    {
-        pilotAudioSource = GetComponent<AudioSource>();
-        rigidbody = GetComponent<Rigidbody>();
     }
 
 
@@ -215,6 +219,25 @@ public class ShipMovement : MonoBehaviour
     }
 
 
+    public float sensitivity = 1f;
+    public float maxYAngle = 12.5f;
+    public float maxXAngle = 30.0f;
+
+    private Vector2 currentRotation;
+    void UpdateCamera()
+    {
+        currentRotation.x += Input.GetAxis("Mouse X") * sensitivity;
+        currentRotation.y -= Input.GetAxis("Mouse Y") * sensitivity;
+        // currentRotation.x = Mathf.Repeat(currentRotation.x, 360);
+        currentRotation.x = Mathf.Clamp(currentRotation.x, -maxXAngle, maxXAngle);
+        currentRotation.y = Mathf.Clamp(currentRotation.y, -maxYAngle, maxYAngle);
+        
+        Camera.main.transform.rotation = gameObject.transform.rotation * Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
+        //if (Input.GetMouseButtonDown(0))
+        //    Cursor.lockState = CursorLockMode.Locked;
+    }
+
+
     private void Update()
     {
         Vector3 movementVector = rigidbody.velocity;
@@ -231,6 +254,8 @@ public class ShipMovement : MonoBehaviour
                 motorSource.Play();
             }
         }
+
+        UpdateCamera();
 
         if (tutorialRunning) return;
 
