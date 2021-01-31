@@ -7,11 +7,15 @@ public enum Movestate
     ASCENDING,
     DESCENDING,
     GROUNDED,
+    PAUSED,
 }
 
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(AudioSource))]
 public class ShipMovement : MonoBehaviour
 {
+    [Range(0.0f, 1.0f)]
+    public float motorSoundMasterVolume = 1.0f;
+
     public float maxForwardTilt = 15.0f;
     public float maxSidewaysTilt = 15.0f;
 
@@ -31,10 +35,12 @@ public class ShipMovement : MonoBehaviour
     private float forwardTilt = 0.0f;
     private float sidewaysTilt = 0.0f;
 
+    private float horizontalInput = 0.0f;
     private Vector3 moveDirection = Vector3.zero;
 
     private new Rigidbody rigidbody; // use keyword 'new' to overwrite the deprecated reference to 'rigidbody'
 
+    public AudioSource motorSource;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -42,6 +48,11 @@ public class ShipMovement : MonoBehaviour
         {
             movestate = Movestate.GROUNDED;
         }
+    }
+
+    public void PauseBeforeAscend()
+    {
+        movestate = Movestate.PAUSED;
     }
 
     public void StartAscend()
@@ -62,12 +73,19 @@ public class ShipMovement : MonoBehaviour
     }
 
 
-    private void UpdateModelTilt(float horizontalInput)
+    private void UpdateModelTilt()
     {
         // Tilt the model based on the rigidbody velocity
         Vector3 direction = transform.InverseTransformDirection(rigidbody.velocity);
         forwardTilt = maxForwardTilt * Mathf.Clamp(direction.z / moveSpeed, -1.0f, 1.0f);
         sidewaysTilt = maxSidewaysTilt * Mathf.Clamp(direction.x / moveSpeed, -1.0f, 1.0f);
+
+        motorSource.volume = Mathf.Clamp(Mathf.Abs(direction.z / moveSpeed), 0.0f, 1.0f * motorSoundMasterVolume);
+        motorSource.volume = Mathf.Max(motorSource.volume, Mathf.Clamp(Mathf.Abs(direction.x / moveSpeed), 0.0f, 0.5f * motorSoundMasterVolume));
+        motorSource.volume = Mathf.Max(motorSource.volume, Mathf.Clamp(Mathf.Abs(horizontalInput), 0.0f, 0.25f * motorSoundMasterVolume));
+
+        print(horizontalInput);
+
 
         // Tilt the model if rotating
         if (horizontalInput != 0.0f)
@@ -130,7 +148,7 @@ public class ShipMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
+        horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
         float strafeInput = Input.GetAxis("Strafe");
 
@@ -167,15 +185,20 @@ public class ShipMovement : MonoBehaviour
                     {
                         rigidbody.position = new Vector3(rigidbody.position.x, hit.point.y + offsetFromGround, rigidbody.position.z);
                     }
-                } else
+                }
+                else
                 {
                     movestate = Movestate.DESCENDING;
                 }
                 break;
+
+            case Movestate.PAUSED:
+                rigidbody.velocity = Vector3.zero;
+                break;
         }
 
         // Tilt the model based on the user inputs
-        UpdateModelTilt(horizontalInput);
+        UpdateModelTilt();
     }
 
 
@@ -184,6 +207,21 @@ public class ShipMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             PingPickups();
+        }
+
+        Vector3 movementVector = rigidbody.velocity;
+        movementVector.y = 0.0f;
+
+        if (Mathf.Abs(Vector3.SqrMagnitude(movementVector)) < 0.01f && Mathf.Abs(horizontalInput) <= 0.01f)
+        {
+            motorSource.Stop();
+        }
+        else
+        {
+            if (!motorSource.isPlaying)
+            {
+                motorSource.Play();
+            }
         }
     }
 
