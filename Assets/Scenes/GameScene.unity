@@ -9476,7 +9476,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 869405104962619857, guid: 489fff6fcf7e17e4d930d51b2bdbce34, type: 3}
       propertyPath: moveSpeed
-      value: 28
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1462259623434005262, guid: 489fff6fcf7e17e4d930d51b2bdbce34, type: 3}
       propertyPath: m_Name
@@ -9965,7 +9965,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 869405104962619857, guid: 489fff6fcf7e17e4d930d51b2bdbce34, type: 3}
       propertyPath: moveSpeed
-      value: 30
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 1462259623434005262, guid: 489fff6fcf7e17e4d930d51b2bdbce34, type: 3}
       propertyPath: m_Name
@@ -10485,6 +10485,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 50045031737637093, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: waitStartDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 50045031792684488, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: fadeInDuration
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
       propertyPath: m_RootOrder
       value: 18
