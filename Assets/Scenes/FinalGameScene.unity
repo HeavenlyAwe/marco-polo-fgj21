@@ -1294,6 +1294,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sinking Ship 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1462259623434005262, guid: 489fff6fcf7e17e4d930d51b2bdbce34, type: 3}
+      propertyPath: m_TagString
+      value: SunkenShip
+      objectReference: {fileID: 0}
     - target: {fileID: 1633205729622161159, guid: 489fff6fcf7e17e4d930d51b2bdbce34, type: 3}
       propertyPath: m_RootOrder
       value: 25
@@ -13118,6 +13122,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sinking Ship 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1462259623434005262, guid: 489fff6fcf7e17e4d930d51b2bdbce34, type: 3}
+      propertyPath: m_TagString
+      value: SunkenShip
+      objectReference: {fileID: 0}
     - target: {fileID: 1633205729622161159, guid: 489fff6fcf7e17e4d930d51b2bdbce34, type: 3}
       propertyPath: m_RootOrder
       value: 27
@@ -21006,6 +21014,10 @@ PrefabInstance:
     - target: {fileID: 1462259623434005262, guid: 489fff6fcf7e17e4d930d51b2bdbce34, type: 3}
       propertyPath: m_Name
       value: Sinking Ship 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1462259623434005262, guid: 489fff6fcf7e17e4d930d51b2bdbce34, type: 3}
+      propertyPath: m_TagString
+      value: SunkenShip
       objectReference: {fileID: 0}
     - target: {fileID: 1633205729622161159, guid: 489fff6fcf7e17e4d930d51b2bdbce34, type: 3}
       propertyPath: m_RootOrder

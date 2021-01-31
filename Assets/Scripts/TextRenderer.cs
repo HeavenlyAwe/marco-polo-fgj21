@@ -73,7 +73,7 @@ public class TextRenderer : MonoBehaviour
             timer += Time.deltaTime;
             if (timer <= components[currentIndex].fadeDuration)
             {
-                print(timer / components[currentIndex].fadeDuration);
+                // print(timer / components[currentIndex].fadeDuration);
                 textMesh.alpha = Mathf.Lerp(components[currentIndex].startFadeValue, components[currentIndex].endFadeValue, timer/components[currentIndex].fadeDuration);
             }
             else
