@@ -247,7 +247,7 @@ public class ShipMovement : MonoBehaviour
         if (postProcessVolume.sharedProfile.TryGetSettings<DepthOfField>(out dof)) {
             float focusPercent = currentRotation.y / 20;
             if (focusPercent < 0) focusPercent = 0;
-            dof.focusDistance.value = Mathf.Lerp(5.2f, 1f, focusPercent);;
+            dof.focusDistance.value = Mathf.Lerp(5.2f, 1f, focusPercent);
             dof.aperture.value = Mathf.Lerp(1.6f, 2f, focusPercent);
         }
     }

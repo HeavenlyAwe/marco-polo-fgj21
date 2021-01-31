@@ -15,6 +15,8 @@ public class PickupManager : MonoBehaviour
 
     private GameObject ship = null;
 
+    public GameObject credits;
+
     private AudioSource pickupSoundSource;
 
     // Start is called before the first frame update
@@ -32,10 +34,11 @@ public class PickupManager : MonoBehaviour
         ship = GameObject.FindGameObjectWithTag("Ship");
     }
 
-    private IEnumerator WaitBeforeAscend(float waitTimer)
+    private IEnumerator WaitAndAscend(float waitTimer)
     {
         yield return new WaitForSeconds(waitTimer);
         ship.SendMessage("StartAscend");
+        credits.SetActive(true);
     }
 
     public void OnPickup()
@@ -48,7 +51,7 @@ public class PickupManager : MonoBehaviour
             print("Pickups collected: " + collectedPickups + "/" + minimumPickups);
 
             ship.SendMessage("PauseBeforeAscend");
-            StartCoroutine(WaitBeforeAscend(1.0f));
+            StartCoroutine(WaitAndAscend(1.0f));
         }
 
         GameObject.Find("SoundManager").SendMessage("SwitchToNextClip");

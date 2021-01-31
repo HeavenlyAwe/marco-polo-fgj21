@@ -55,12 +55,17 @@ public class TextRenderer : MonoBehaviour
         SetupComponent();
     }
 
+    private bool tutorialDone = false;
     private bool fading = false;
     private bool done = false;
 
     // Update is called once per frame
     void Update()
     {
+        if (done && tutorialDone)
+        {
+            gameObject.SetActive(false);
+        }
         if (done) return;
 
         if (fading)
@@ -115,6 +120,7 @@ public class TextRenderer : MonoBehaviour
 
     public void TutorialDone()
     {
+        tutorialDone = true;
         components[components.Length - 2].shouldGoToNext = true;
         done = false;
     }
