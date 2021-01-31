@@ -12312,6 +12312,10 @@ PrefabInstance:
       propertyPath: fadeInDuration
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 2697821813265676644, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: postprocessing
+      value: 
+      objectReference: {fileID: 1326609671}
     - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
       propertyPath: m_RootOrder
       value: 26
@@ -16856,6 +16860,7 @@ MonoBehaviour:
   sensitivity: 1
   maxYAngle: 12.5
   maxXAngle: 30
+  postprocessing: {fileID: 0}
 --- !u!82 &2088087539
 AudioSource:
   m_ObjectHideFlags: 0

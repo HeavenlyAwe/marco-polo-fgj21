@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public enum Movestate
 {
@@ -223,6 +224,8 @@ public class ShipMovement : MonoBehaviour
     public float maxYAngle = 12.5f;
     public float maxXAngle = 30.0f;
 
+    public GameObject postprocessing;
+
     private Vector2 currentRotation;
     void UpdateCamera()
     {
@@ -235,6 +238,16 @@ public class ShipMovement : MonoBehaviour
         Camera.main.transform.rotation = gameObject.transform.rotation * Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
         //if (Input.GetMouseButtonDown(0))
         //    Cursor.lockState = CursorLockMode.Locked;
+
+        PostProcessVolume postProcessVolume;
+        postProcessVolume = postprocessing.GetComponent<PostProcessVolume>();
+        DepthOfField dof;
+        if (postProcessVolume.sharedProfile.TryGetSettings<DepthOfField>(out dof)) {
+            float focusPercent = currentRotation.y / 20;
+            if (focusPercent < 0) focusPercent = 0;
+            dof.focusDistance.value = Mathf.Lerp(5.2f, 1f, focusPercent);;
+            dof.aperture.value = Mathf.Lerp(1.6f, 2f, focusPercent);
+        }
     }
 
 
