@@ -20382,7 +20382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eda84098f7cd8b43b81912464d705b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimumPickups: 1
+  minimumPickups: 3
   availablePickups: 0
   collectedPickups: 0
   minimumDistanceToLastPickup: 100
