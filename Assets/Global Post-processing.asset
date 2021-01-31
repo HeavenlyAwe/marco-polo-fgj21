@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7281385006508941334
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6050e2d5de785ce4d931e4dbdbf2d755, type: 3}
+  m_Name: ChromaticAberration
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  spectralLut:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+  intensity:
+    overrideState: 1
+    value: 0.028
+  fastMode:
+    overrideState: 1
+    value: 1
 --- !u!114 &-7076557127588970056
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -21,16 +47,16 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 0.1728818, g: 0.19522133, b: 0.1981132, a: 1}
+    value: {r: 0.14391243, g: 0.20754719, b: 0.20754719, a: 1}
   center:
     overrideState: 1
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.565
+    value: 0.634
   smoothness:
     overrideState: 1
-    value: 0.33
+    value: 0.188
   roundness:
     overrideState: 0
     value: 1
@@ -62,7 +88,7 @@ MonoBehaviour:
     value: 1
   focusDistance:
     overrideState: 1
-    value: 6
+    value: 5.2
   aperture:
     overrideState: 1
     value: 1.6
@@ -90,6 +116,7 @@ MonoBehaviour:
   - {fileID: -1914128596395353368}
   - {fileID: 8613460582070539753}
   - {fileID: 9002538852765636658}
+  - {fileID: -7281385006508941334}
 --- !u!114 &2349391399024418281
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -102,22 +129,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65e486e4de6e5448a8fbb43dc8756a0, type: 3}
   m_Name: Grain
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
   colored:
-    overrideState: 1
+    overrideState: 0
     value: 0
   intensity:
     overrideState: 1
-    value: 0.027
+    value: 0.026
   size:
     overrideState: 1
-    value: 2.64
+    value: 1.35
   lumContrib:
     overrideState: 1
-    value: 0.447
+    value: 0.324
 --- !u!114 &8613460582070539753
 MonoBehaviour:
   m_ObjectHideFlags: 3
