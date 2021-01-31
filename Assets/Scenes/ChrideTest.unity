@@ -747,6 +747,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: skybowl
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e1d52d14750a64f60a51ea9df444b187, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1d52d14750a64f60a51ea9df444b187, type: 3}
 --- !u!1001 &307894169
@@ -11109,6 +11113,71 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!1001 &827959988
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 50045031737637093, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: waitStartDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 50045031792684488, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: fadeInDuration
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_RootOrder
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 101.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 57.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.4241995
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9055688
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -129.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6140427629698204618, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6329700361171574723, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
+      propertyPath: m_Name
+      value: Submarine Player
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bcc2bec6d67447448843583bfa22c71b, type: 3}
 --- !u!1 &909934895
 GameObject:
   m_ObjectHideFlags: 0
@@ -13303,6 +13372,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8261583397416806072, guid: 09b84e24b4ef1b4449b2bcdafbcd7908, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261583397416806072, guid: 09b84e24b4ef1b4449b2bcdafbcd7908, type: 3}
       propertyPath: m_TagString
       value: Ship
       objectReference: {fileID: 0}
@@ -13377,6 +13450,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d665858a3358c23449f941909832f9ff, type: 3}
   movestate: 1
   motorSource: {fileID: 1079530159}
+  tutorial: {fileID: 0}
+  tutorialLogo: {fileID: 0}
+  tutorialInstructions: {fileID: 0}
+  tutorialRunning: 1
+  sensitivity: 1
+  maxYAngle: 12.5
+  maxXAngle: 30
 --- !u!82 &2088087539
 AudioSource:
   m_ObjectHideFlags: 0
