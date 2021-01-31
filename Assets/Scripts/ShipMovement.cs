@@ -44,11 +44,13 @@ public class ShipMovement : MonoBehaviour
     public AudioSource motorSource;
 
 
-    public GameObject tutorial;
-    public GameObject tutorialLogo;
-    public GameObject tutorialInstructions;
+    public GameObject textObject;
+    // public GameObject tutorialLogo;
+    // public GameObject tutorialInstructions;
+
 
     public bool tutorialRunning = true;
+    private bool spaceFirstTime = true;
 
 
     private void Start()
@@ -68,8 +70,8 @@ public class ShipMovement : MonoBehaviour
             movestate = Movestate.GROUNDED;
             if (tutorialRunning)
             {
-                tutorialInstructions.SetActive(true);
-                tutorialLogo.SetActive(false);
+                // tutorialInstructions.SetActive(true);
+                // tutorialLogo.SetActive(false);
                 tutorialRunning = false;
             }
         }
@@ -245,7 +247,7 @@ public class ShipMovement : MonoBehaviour
         if (postProcessVolume.sharedProfile.TryGetSettings<DepthOfField>(out dof)) {
             float focusPercent = currentRotation.y / 20;
             if (focusPercent < 0) focusPercent = 0;
-            dof.focusDistance.value = Mathf.Lerp(5.2f, 1f, focusPercent);;
+            dof.focusDistance.value = Mathf.Lerp(5.2f, 1f, focusPercent);
             dof.aperture.value = Mathf.Lerp(1.6f, 2f, focusPercent);
         }
     }
@@ -274,14 +276,14 @@ public class ShipMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            if (tutorialRunning)
+            if (tutorialRunning) return;
+
+            if (spaceFirstTime)
             {
-                return;
+                textObject.SendMessage("TutorialDone");
+                spaceFirstTime = false;
             }
-            else
-            {
-                tutorialInstructions.GetComponent<FadeText>().fadeOutDuration = 50.0f;
-            }
+
             print("Ping");
             PingPickups();
         }

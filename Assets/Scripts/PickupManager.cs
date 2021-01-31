@@ -15,7 +15,20 @@ public class PickupManager : MonoBehaviour
 
     private GameObject ship = null;
 
+    public GameObject credits;
+
     private AudioSource pickupSoundSource;
+
+    private IEnumerator WaitAndDestroySunkenShips(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        GameObject[] sunkenShips = GameObject.FindGameObjectsWithTag("SunkenShip");
+        for (int i = 0; i < sunkenShips.Length; i++)
+        {
+            Destroy(sunkenShips[i]);
+        }
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -25,6 +38,8 @@ public class PickupManager : MonoBehaviour
         minimumPickups = Mathf.Min(minimumPickups, availablePickups);
 
         pickupSoundSource = GetComponent<AudioSource>();
+
+        StartCoroutine(WaitAndDestroySunkenShips(10.0f));
     }
 
     private void Start()
@@ -32,10 +47,14 @@ public class PickupManager : MonoBehaviour
         ship = GameObject.FindGameObjectWithTag("Ship");
     }
 
-    private IEnumerator WaitBeforeAscend(float waitTimer)
+
+
+
+    private IEnumerator WaitAndAscend(float waitTimer)
     {
         yield return new WaitForSeconds(waitTimer);
         ship.SendMessage("StartAscend");
+        credits.SetActive(true);
     }
 
     public void OnPickup()
@@ -48,10 +67,9 @@ public class PickupManager : MonoBehaviour
             print("Pickups collected: " + collectedPickups + "/" + minimumPickups);
 
             ship.SendMessage("PauseBeforeAscend");
-            StartCoroutine(WaitBeforeAscend(1.0f));
+            StartCoroutine(WaitAndAscend(1.0f));
         }
 
         GameObject.Find("SoundManager").SendMessage("SwitchToNextClip");
     }
-
 }
