@@ -158,7 +158,7 @@ public class ShipMovement : MonoBehaviour
         for (int i = 0; i < pickups.Length; i++)
         {
             float distance = Vector3.Distance(transform.position, pickups[i].transform.position);
-            float playTimer = distance / 30.0f + maxClipDuration;
+            float playTimer = distance / 100.0f + maxClipDuration;
             pickups[i].SendMessage("PlaySound", playTimer);
         }
     }
