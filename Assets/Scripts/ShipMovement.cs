@@ -42,11 +42,25 @@ public class ShipMovement : MonoBehaviour
 
     public AudioSource motorSource;
 
+
+    public GameObject tutorial;
+    public GameObject tutorialLogo;
+    public GameObject tutorialInstructions;
+
+    public bool tutorialRunning = true;
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (movestate == Movestate.DESCENDING)
         {
             movestate = Movestate.GROUNDED;
+            if (tutorialRunning)
+            {
+                tutorialInstructions.SetActive(true);
+                tutorialLogo.SetActive(false);
+                tutorialRunning = false;
+            }
         }
     }
 
@@ -83,9 +97,6 @@ public class ShipMovement : MonoBehaviour
         motorSource.volume = Mathf.Clamp(Mathf.Abs(direction.z / moveSpeed), 0.0f, 1.0f * motorSoundMasterVolume);
         motorSource.volume = Mathf.Max(motorSource.volume, Mathf.Clamp(Mathf.Abs(direction.x / moveSpeed), 0.0f, 0.5f * motorSoundMasterVolume));
         motorSource.volume = Mathf.Max(motorSource.volume, Mathf.Clamp(Mathf.Abs(horizontalInput), 0.0f, 0.25f * motorSoundMasterVolume));
-
-        print(horizontalInput);
-
 
         // Tilt the model if rotating
         if (horizontalInput != 0.0f)
@@ -173,6 +184,8 @@ public class ShipMovement : MonoBehaviour
                 break;
             case Movestate.GROUNDED:
 
+                if (tutorialRunning) return;
+
                 // Give the rigidbody a velocity
                 Vector3 targetDirection = new Vector3(0.5f * strafeInput, 0.0f, verticalInput);
                 moveDirection = Vector3.Lerp(moveDirection, targetDirection, moveDirectionLerpSpeed * Time.deltaTime);
@@ -204,11 +217,6 @@ public class ShipMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Jump"))
-        {
-            PingPickups();
-        }
-
         Vector3 movementVector = rigidbody.velocity;
         movementVector.y = 0.0f;
 
@@ -222,6 +230,22 @@ public class ShipMovement : MonoBehaviour
             {
                 motorSource.Play();
             }
+        }
+
+        if (tutorialRunning) return;
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (tutorialRunning)
+            {
+                return;
+            }
+            else
+            {
+                tutorialInstructions.GetComponent<FadeText>().fadeOutDuration = 50.0f;
+            }
+            print("Ping");
+            PingPickups();
         }
     }
 
