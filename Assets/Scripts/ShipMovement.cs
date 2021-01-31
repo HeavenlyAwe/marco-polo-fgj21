@@ -236,7 +236,7 @@ public class ShipMovement : MonoBehaviour
         // currentRotation.x = Mathf.Repeat(currentRotation.x, 360);
         currentRotation.x = Mathf.Clamp(currentRotation.x, -maxXAngle, maxXAngle);
         currentRotation.y = Mathf.Clamp(currentRotation.y, -maxYAngle, maxYAngle);
-        
+
         Camera.main.transform.rotation = gameObject.transform.rotation * Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
         //if (Input.GetMouseButtonDown(0))
         //    Cursor.lockState = CursorLockMode.Locked;
@@ -244,7 +244,8 @@ public class ShipMovement : MonoBehaviour
         PostProcessVolume postProcessVolume;
         postProcessVolume = postprocessing.GetComponent<PostProcessVolume>();
         DepthOfField dof;
-        if (postProcessVolume.sharedProfile.TryGetSettings<DepthOfField>(out dof)) {
+        if (postProcessVolume.sharedProfile.TryGetSettings<DepthOfField>(out dof))
+        {
             float focusPercent = currentRotation.y / 20;
             if (focusPercent < 0) focusPercent = 0;
             dof.focusDistance.value = Mathf.Lerp(5.2f, 1f, focusPercent);
@@ -255,6 +256,15 @@ public class ShipMovement : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetButton("Cancel"))
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
         Vector3 movementVector = rigidbody.velocity;
         movementVector.y = 0.0f;
 

@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ChrideTestA.unity
-    guid: 084bc23c24b2e5eb08edc8ea270ff9eb
+    path: Assets/Scenes/FinalGameScene.unity
+    guid: b2fdb519c62ce4d46b585f5a636f13b0
   m_configObjects: {}
