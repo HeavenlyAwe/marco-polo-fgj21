@@ -1,12 +1,72 @@
 fileFormatVersion: 2
-guid: c69eca836079b417ea109ac92bc6d50c
+guid: 40317b7908b71135f899fb796bec1a45
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cover_1
+    second: {fileID: 2100000, guid: 16b7eae7e109fe25ca681781dd4314cc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cover_2
+    second: {fileID: 2100000, guid: b3388389749770f138bfab2daa555bf2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: exterior rust
+    second: {fileID: 2100000, guid: 460fee2174239bf2eb353b3d849d66ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: exterior_brass
+    second: {fileID: 2100000, guid: a49b529071e9b7916b97b73ffc0e4a50, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: floor_plating
+    second: {fileID: 2100000, guid: 73424273ee380c02793dea0320546214, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: green_metal
+    second: {fileID: 2100000, guid: 589e0e54827df4570b5a3caacba5a741, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: leafer
+    second: {fileID: 2100000, guid: e46584f57eb7825f4b91da4400c191ba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: nice_wood
+    second: {fileID: 2100000, guid: 4c85d177c9db15920962755f936da940, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pipe
+    second: {fileID: 2100000, guid: 4ecf488895557643f88df021de1cf929, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: planks
+    second: {fileID: 2100000, guid: b224d2cbb5635105ea572ad0e6c0d5fa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: polished_brass
+    second: {fileID: 2100000, guid: 1a641e1ceb3b3d4fc9ee9495ed4e3bf7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rustydark
+    second: {fileID: 2100000, guid: 69de58019fd25ea03890f74215e403b4, type: 2}
   materials:
     materialImportMode: 2
-    materialName: 0
+    materialName: 1
     materialSearch: 1
     materialLocation: 1
   animations:
