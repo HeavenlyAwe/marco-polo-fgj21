@@ -1182,6 +1182,13 @@ MonoBehaviour:
     pauseDurationBefore: 1
     pauseDurationAfter: 0
     shouldGoToNext: 1
+  - text: Finnish Game Jam 2021
+    startFadeValue: 0
+    endFadeValue: 1
+    fadeDuration: 2
+    pauseDurationBefore: 1
+    pauseDurationAfter: 0
+    shouldGoToNext: 1
 --- !u!1 &6951354270363463567
 GameObject:
   m_ObjectHideFlags: 0
